@@ -1,4 +1,5 @@
 ﻿using System;
+using simpleSqlDatabaseCrud.src.connection;
 
 namespace simpleSqlDatabaseCrud
 {
@@ -6,7 +7,10 @@ namespace simpleSqlDatabaseCrud
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            LoadConfigFIleInfo loadConfigFIleInfo = new LoadConfigFIleInfo();
+            ConnectToDatabase connectToDatabase = new ConnectToDatabase(loadConfigFIleInfo.GetConnectionString());
+
+            
         }
     }
 }
