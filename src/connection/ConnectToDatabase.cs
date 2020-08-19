@@ -30,7 +30,7 @@ namespace simpleSqlDatabaseCrud.src.connection
             return Connection;
         }
 
-        public bool ConnectToDatabaseHasBeenStablished()
+        public bool ConnectionToDatabaseHasBeenStablished()
         {
             return Passed;
         }
