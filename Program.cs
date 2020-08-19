@@ -24,24 +24,26 @@ namespace simpleSqlDatabaseCrud
             int Select = 0;
 
             Console.WriteLine("1 para Inserir valor\n2 para Obter todos os valores\n3 para Atualizar um valor específico\n4 para Remover um valor específico\n\n0 para sair");
-            Select = Convert.ToInt32(Console.ReadLine());
-
-            switch(Select)
+            if (int.TryParse(Console.ReadLine(), out Select))
             {
-                case 1:
-                    Create();
-                break;
-                case 2:
-                break;
-                case 3:
-                    Update();
-                break;
-                case 4:
-                    Delete();
-                break;
-                case 0:
-                    Run = false;
-                break;
+                switch (Select)
+                {
+                    case 1:
+                        Create();
+                        break;
+                    case 2:
+                        Read();
+                        break;
+                    case 3:
+                        Update();
+                        break;
+                    case 4:
+                        Delete();
+                        break;
+                    case 0:
+                        Run = false;
+                        break;
+                }
             }
         }
 
@@ -70,6 +72,20 @@ namespace simpleSqlDatabaseCrud
             Create create = new Create(ConnectionString);
             create.ProcessUserInput(Rg,Nome,Datanascimento,Cpf,Nomemae,Profissao);
             create.ExecuteQuery();
+        }
+
+        static void Read()
+        {
+            Read read = new Read(ConnectionString);
+          
+            read.ExecuteQuery();
+
+            foreach(var i in read.GetPessoas())
+            {
+                Console.WriteLine($"\nRg: {i.Rg}\nNome: {i.Nome}\nData de nascimento: {i.DataNascimento}\nCPF: {i.Cpf}\nNome da mãe: {i.NomeMae}\nProfissão: {i.Profissao}\n");
+            }
+
+            Console.ReadLine();
         }
 
         static void Update()

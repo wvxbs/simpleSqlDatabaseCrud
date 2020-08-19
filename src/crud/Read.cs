@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace simpleSqlDatabaseCrud.src.crud
 {
     public class Read
     {
-
         private List<Pessoa> PessoaList = new List<Pessoa>();
         private string ConnectionString = "";
         private string QueryString = "";
@@ -15,9 +16,6 @@ namespace simpleSqlDatabaseCrud.src.crud
         public Read(string _ConnectionString)
         {
             ConnectionString = _ConnectionString;
-
-            CreateQueryString();
-            //ExecuteQuery();
         }
 
         private void CreateQueryString()
@@ -30,24 +28,34 @@ namespace simpleSqlDatabaseCrud.src.crud
             QueryString = Query.ToString();
         }
 
-        /*(public void ExecuteQuery()
+        public void ExecuteQuery()
         {
+            CreateQueryString();       
+
             using(SqlConnection Connection = new SqlConnection(ConnectionString)) 
             {
                 Connection.Open();
 
-                using (SqlCommand command = new SqlCommand(QueryString, Connection))
+                using (SqlCommand Command = Connection.CreateCommand())
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    Command.CommandText = QueryString;
+                    SqlDataReader reader = Command.ExecuteReader();
+                    
+                    while(reader.Read())
                     {
-                        foreach (var item in reader)
-                        {
-                            PessoaList.Add(item);
-                        }
+                        Pessoa pessoa = new Pessoa();
+                        pessoa.Rg = reader["RG"].ToString();
+                        pessoa.Nome = reader["NOME"].ToString();
+                        pessoa.DataNascimento= reader["DATANASCIMENTO"].ToString();
+                        pessoa.Cpf = reader["CPF"].ToString();
+                        pessoa.NomeMae = reader["NOMEMAE"].ToString();
+                        pessoa.Profissao = reader["PROFISSAO"].ToString();
+
+                        PessoaList.Add(pessoa);
                     }
                 }  
             }
-        }*/
+        }
 
         public List<Pessoa> GetPessoas()
         {
